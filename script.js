@@ -122,11 +122,13 @@ const operate = (operation) => { //performs operations
         input.operator = operation;
     }
     else if(operation === "equal") {
-        equal();
+        equal(input.operator);
+        input.operator = operation;
     }
     else {
-        printOperation(operation);
         equal(input.operator);
+        printOperation(operation);
+        input.operator = operation;
     }
 };
 const operations = document.querySelectorAll(".right div, .equal, .decimal"); //selects all operations
