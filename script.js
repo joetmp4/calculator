@@ -76,7 +76,8 @@ const backspace = document.querySelector(".backspace");
 backspace.addEventListener("click", () => {
     if(input.operator === ""){
         input.firstNumber = Math.floor(input.firstNumber /10);
-        output.textContent = input.firstNumber;
+        if(input.firstNumber !== 0) output.textContent = input.firstNumber;
+        else output.textContent = "|";
     }
     else if (input.secondNumber === null){
         input.operator = "";
@@ -99,25 +100,33 @@ backspace.addEventListener("click", () => {
     }
 });
 
+const printOperation = (operation) => {
+    if(operation == "add") {
+        output.textContent += "+";
+    }
+    else if(operation == "subtract") {
+        output.textContent += "-";
+    }
+    else if(operation == "multiply") {
+        output.textContent += "x";
+    }
+    else if(operation == "divide") {
+        output.textContent += "/";
+    }
+}
+
 const operate = (operation) => { //performs operations
-    if(input.operator == ""){
-        if(operation == "add") {
-            output.textContent += "+";
-        }
-        else if(operation == "subtract") {
-            output.textContent += "-";
-        }
-        else if(operation == "multiply") {
-            output.textContent += "x";
-        }
-        else if(operation == "divide") {
-            output.textContent += "/";
-        }
+    if(input.operator == "" && operation !== "equal"){
+        printOperation(operation);
 
         input.operator = operation;
-    } else {
+    }
+    else if(operation === "equal") {
+        equal();
+    }
+    else {
+        printOperation(operation);
         equal(input.operator);
-        input.operator = "";
     }
 };
 const operations = document.querySelectorAll(".right div, .equal, .decimal"); //selects all operations
