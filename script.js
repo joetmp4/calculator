@@ -56,31 +56,67 @@ numberInput.forEach((number) => { //loop through each number
                 input.secondNumber = Number(number.textContent);
             }else{ //sets secondNum (if one exitst alr)
                 input.secondNumber = input.secondNumber*10 + Number(number.textContent);
-                output.textContent = ` ${input.secondNumber}`;
             }
+            output.textContent = ` ${input.secondNumber}`;
         }
     });
 });
 
+const clear = document.querySelector(".clear");
+
+clear.addEventListener("click", () => {
+    output.textContent = "|";
+    input.firstNumber = 0;
+    input.secondNumber = null;
+    input.operator = "";
+});
+
+const backspace = document.querySelector(".backspace");
+
+backspace.addEventListener("click", () => {
+    if(input.operator === ""){
+        input.firstNumber = Math.floor(input.firstNumber /10);
+        output.textContent = input.firstNumber;
+    }
+    else if (input.secondNumber === null){
+        input.operator = "";
+        output.textContent = input.firstNumber;
+    }
+    else {
+        input.secondNumber = Math.floor(input.secondNumber / 10);
+        if(input.secondNumber === 0){
+            input.secondNumber = null;
+
+            output.textContent = input.firstNumber;
+
+            if (input.operator === "add") output.textContent += "+";
+            else if (input.operator === "subtract") output.textContent += "-";
+            else if (input.operator === "multiply") output.textContent += "x";
+            else if (input.operator === "divide") output.textContent += "/";
+        } else {
+            output.textContent = input.secondNumber;
+        }
+    }
+});
 
 const operate = (operation) => { //performs operations
     if(input.operator == ""){
         if(operation == "add") {
-            output.textContent += " + ";
+            output.textContent += "+";
         }
         else if(operation == "subtract") {
-            output.textContent += " - ";
+            output.textContent += "-";
         }
         else if(operation == "multiply") {
-            output.textContent += " x ";
+            output.textContent += "x";
         }
         else if(operation == "divide") {
-            output.textContent += " / ";
+            output.textContent += "/";
         }
 
         input.operator = operation;
     } else {
-        equal(operation);
+        equal(input.operator);
         input.operator = "";
     }
 };
