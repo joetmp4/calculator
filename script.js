@@ -1,21 +1,19 @@
 const input = {
     firstNumber: 0,
-    secondNumber: 0,
+    secondNumber: null,
     operator: "",
 };
 
-const equal = (num) => {
-    if(input.secondNumber != 0){
-        input.firstNumber = num;
-        input.secondNumber = 0;
-        output.textContent = num;
+const equal = () => {
+    if(input.secondNumber != null){
+        input.secondNumber = null;
+        input.operator = "";
+        output.textContent = input.firstNumber;
     }
 };
 
 const add = () =>{
     let sum = input.firstNumber + input.secondNumber;
-
-    equal(sum);
 
     return sum;
 };
@@ -23,23 +21,17 @@ const add = () =>{
 const subtract = () =>{
     let difference = input.firstNumber - input.secondNumber;
 
-    equal(difference);
-
     return difference;
 };
 
 const multiply = () =>{
     let product = input.firstNumber * input.secondNumber;
 
-    equal(product);
-
     return product;
 };
 
 const divide = () =>{
     let quotient = input.firstNumber / input.secondNumber;
-
-    equal(quotient);
 
     return quotient;
 };
@@ -55,47 +47,54 @@ numberInput.forEach((number) => {
         if(input.operator === ""){
             input.firstNumber = input.firstNumber*10 + Number(number.textContent);
             
-            output.textContent = `${input.firstNumber}`;
+            output.textContent = ` ${input.firstNumber}`;
         }
         else{
             input.secondNumber = input.secondNumber*10 + Number(number.textContent);
-            output.textContent = `${input.secondNumber}`;
+            output.textContent = ` ${input.secondNumber}`;
         }
     });
 });
 
 
-const operate = (operation = "") => {
-    let num = input.firstNumber;
+const operate = (operation) => {
+    let num;
 
-    input.operator = operation;
+    if(operation != "equal"){
+        input.operator = operation;
+    }
 
     if(operation === "add") {
         output.textContent += " + ";
-        if(input.operator != "") {
+        if(input.secondNumber != null) {
             num = add();
+            input.firstNumber = num;
         }
     }
     else if(operation === "subtract") {
         output.textContent += " - ";
-        if(input.operator != "") {
+        if(input.secondNumber != null) {
             num = subtract();
+            input.firstNumber = num;
         }
     }
     else if(operation === "multiply") {
         output.textContent += " x ";
-        if(input.operator != "") {
+        if(input.secondNumber != null) {
             num = multiply();
+            input.firstNumber = num;
         }
     }
     else if (operation === "divide") {
         output.textContent += " / ";
-        if(input.operator != "") {
+        if(input.secondNumber != null) {
             num = divide();
+            input.firstNumber = num;
         }
     }
     else if (operation === "equal") {
-        if(input.operator != "") equal(num);
+        operate(input.operator);
+        equal();
     }
 };
 const operations = document.querySelectorAll(".right div, .equal, .decimal");
