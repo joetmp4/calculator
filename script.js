@@ -123,7 +123,7 @@ const operate = (operation) => { //performs operations
     }
     else if(operation === "equal") {
         equal(input.operator);
-        input.operator = operation;
+        input.operator = "";
     }
     else {
         equal(input.operator);
