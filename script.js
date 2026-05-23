@@ -4,23 +4,43 @@ const input = {
     operator: "",
 };
 
+const equal = (num) => {
+    if(input.secondNumber != 0){
+        input.firstNumber = num;
+        input.secondNumber = 0;
+        output.textContent = num;
+    }
+};
+
 const add = () =>{
     let sum = input.firstNumber + input.secondNumber;
+
+    equal(sum);
+
     return sum;
 };
 
 const subtract = () =>{
     let difference = input.firstNumber - input.secondNumber;
+
+    equal(difference);
+
     return difference;
 };
 
 const multiply = () =>{
     let product = input.firstNumber * input.secondNumber;
+
+    equal(product);
+
     return product;
 };
 
 const divide = () =>{
     let quotient = input.firstNumber / input.secondNumber;
+
+    equal(quotient);
+
     return quotient;
 };
 
@@ -44,21 +64,39 @@ numberInput.forEach((number) => {
     });
 });
 
-const equal = (num) => {
-    output.textContent = num;
-};
 
-const operate = (operation = "=") => {
-    let output = 0;
+const operate = (operation = "") => {
+    let num = input.firstNumber;
 
-    if(operation === "add") if(input.secondNumber != 0)output = add();
-    else if(operation === "subtract") output = add();
-    else if(operation === "multiply") output = multiply();
-    else if (operation === "divide") output = divide();
-    else if (operation === "equal") equal(output);
+    input.operator = operation;
 
-
-    
+    if(operation === "add") {
+        output.textContent += " + ";
+        if(input.operator != "") {
+            num = add();
+        }
+    }
+    else if(operation === "subtract") {
+        output.textContent += " - ";
+        if(input.operator != "") {
+            num = subtract();
+        }
+    }
+    else if(operation === "multiply") {
+        output.textContent += " x ";
+        if(input.operator != "") {
+            num = multiply();
+        }
+    }
+    else if (operation === "divide") {
+        output.textContent += " / ";
+        if(input.operator != "") {
+            num = divide();
+        }
+    }
+    else if (operation === "equal") {
+        if(input.operator != "") equal(num);
+    }
 };
 const operations = document.querySelectorAll(".right div, .equal, .decimal");
 
