@@ -113,8 +113,35 @@ clear.addEventListener("click", () => {
 
 const backspace = document.querySelector(".backspace");
 
-backspace.addEventListener("click", () => {
-    
+backspace.addEventListener("click", () => { //backspace function; turns output into string to perform opperations
+    let tempOutput = output.textContent; //save output into temp variable
+
+    if (tempOutput === "|" || tempOutput === "Error :(") return; //if there is no number return
+
+    tempOutput = tempOutput.slice(0,-1); //backspace lol
+
+    if (tempOutput === "" || tempOutput === "0" || tempOutput === "-"){ //if remaining char is empty, 0, or neg. num
+        tempOutput = "|"; //reset input if empty
+
+        if (input.operator === ""){ //check if first number
+            input.firstNumber = 0; //reset number
+        } else {
+            input.secondNumber = null;
+        }
+        //reset decimal
+        input.decimal = false;
+        input.decimalPlace = 10;
+        return;
+    }
+
+    if(input.operator === ""){//check if first number
+        input.firstNumber = Number(tempOutput); //reset number
+    }
+    else {
+        input.secondNumber = Number(tempOutput);
+    }
+
+    input.decimal = tempOutput.includes("."); //assign decmial boolean to if there is a '.'
 });
 
 const printOperation = (operation) => {
