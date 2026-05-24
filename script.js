@@ -6,6 +6,9 @@ const input = { //input object. Stores numbers and operator
     decimalPlace: 10,
 };
 
+const roundNumber = (num, decimalPlaces = 10) => {
+    return Number(num.toFixed(decimalPlaces));
+}
 
 const add = () =>{ //returns sum of both numbers
     return input.firstNumber + input.secondNumber;
@@ -47,7 +50,9 @@ const equal = (op = "") => {//takes operation and outputs num
     else if(op == "divide"){
         input.firstNumber = divide();
     }
-
+    
+    input.firstNumber = roundNumber(input.firstNumber);
+    
     input.secondNumber = null;
     if (input.firstNumber === null){
         output.textContent = "Error :(";
@@ -72,6 +77,8 @@ numberInput.forEach((number) => { //loop through each number
             else{
                 input.firstNumber = input.firstNumber + Number(number.textContent)/input.decimalPlace;
                 
+                input.firstNumber = roundNumber(input.firstNumber);
+
                 input.decimalPlace *= 10;
             }
             output.textContent = `${input.firstNumber === 0 ? "0" : ""}${input.firstNumber}`; //output current num
@@ -84,6 +91,8 @@ numberInput.forEach((number) => { //loop through each number
                 else{
                     input.secondNumber = input.secondNumber + Number(number.textContent)/input.decimalPlace;
                 }
+
+                input.secondNumber = roundNumber(input.secondNumber);
 
                 input.decimalPlace *= 10;
             }
