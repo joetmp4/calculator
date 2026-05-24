@@ -70,7 +70,7 @@ numberInput.forEach((number) => { //loop through each number
                 input.firstNumber = input.firstNumber*10 + Number(number.textContent); //set firstNum
             }
             else{
-                input.firstNumber = 0 + Number(number.textContent)/input.decimalPlace;
+                input.firstNumber = input.firstNumber + Number(number.textContent)/input.decimalPlace;
                 
                 input.decimalPlace *= 10;
             }
@@ -114,40 +114,7 @@ clear.addEventListener("click", () => {
 const backspace = document.querySelector(".backspace");
 
 backspace.addEventListener("click", () => {
-    if(input.decimal){
-        if(input.decimalPlace > 100){
-
-            input.decimal
-
-            input.decimalPlace /= 10;
-
-        }
-    }
-
-    if(input.operator === ""){
-        input.firstNumber = Math.floor(input.firstNumber /10);
-        if(input.firstNumber !== 0) output.textContent = input.firstNumber;
-        else output.textContent = "|";
-    }
-    else if (input.secondNumber === null){
-        input.operator = "";
-        output.textContent = input.firstNumber;
-    }
-    else {
-        input.secondNumber = Math.floor(input.secondNumber / 10);
-        if(input.secondNumber === 0){
-            input.secondNumber = null;
-
-            output.textContent = input.firstNumber;
-
-            if (input.operator === "add") output.textContent += "+";
-            else if (input.operator === "subtract") output.textContent += "-";
-            else if (input.operator === "multiply") output.textContent += "x";
-            else if (input.operator === "divide") output.textContent += "/";
-        } else {
-            output.textContent = input.secondNumber;
-        }
-    }
+    
 });
 
 const printOperation = (operation) => {
@@ -182,7 +149,11 @@ const operate = (operation) => { //performs operations
     if(input.operator === "" && operation !== "equal"){
         printOperation(operation);
 
-        if(operation !== "decimal") input.operator = operation;
+        if(operation !== "decimal") {
+            input.decimal = false;
+            input.decimalPlace = 10;
+            input.operator = operation;
+        }
         else {
             input.decimal = true;
         }
@@ -202,6 +173,10 @@ const operate = (operation) => { //performs operations
             input.operator = operation;
             output.textContent = input.firstNumber;
             printOperation(input.operator);
+
+            input.decimal = false;
+            input.decimalPlace = 10;
+
             return;
         }
         equal(input.operator);
