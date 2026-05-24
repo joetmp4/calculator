@@ -27,6 +27,11 @@ const divide = () =>{ //returns quotient of both numbers
 };
 
 const equal = (op = "") => {//takes operation and outputs num
+    
+    if(input.secondNumber === null){
+        return; 
+    }
+    
     input.decimal = false;
     input.decimalPlace = 10;
 
@@ -65,11 +70,11 @@ numberInput.forEach((number) => { //loop through each number
                 input.firstNumber = input.firstNumber*10 + Number(number.textContent); //set firstNum
             }
             else{
-                input.firstNumber = input.firstNumber + Number(number.textContent)/input.decimalPlace;
+                input.firstNumber = 0 + Number(number.textContent)/input.decimalPlace;
                 
                 input.decimalPlace *= 10;
             }
-            output.textContent = ` ${input.firstNumber}`; //output current num
+            output.textContent = `${input.firstNumber === 0 ? "0" : ""}${input.firstNumber}`; //output current num
         }
         else{
             if(input.decimal === true){
@@ -110,9 +115,12 @@ const backspace = document.querySelector(".backspace");
 
 backspace.addEventListener("click", () => {
     if(input.decimal){
-        if(input.decimalPlace < 100){
-            input.decimal = false;
+        if(input.decimalPlace > 100){
+
+            input.decimal
+
             input.decimalPlace /= 10;
+
         }
     }
 
@@ -156,6 +164,16 @@ const printOperation = (operation) => {
         output.textContent += "/";
     }
     else if(operation === "decimal" && input.decimal === false){
+        if (input.operator === ""){
+            if(input.firstNumber === 0){
+                output.textContent = "0.";
+                return;
+            }
+        }
+        else if(input.secondNumber === null){
+            output.textContent = "0.";
+            return;
+        }
         output.textContent += ".";
     }
 };
@@ -174,10 +192,7 @@ const operate = (operation) => { //performs operations
         input.operator = "";
     }
     else {
-        if(operation!== "decimal") {
-            input.operator = operation;
-        }
-        else {
+        if(operation == "decimal") {
             printOperation(operation);
             input.decimal = true;
             return;
