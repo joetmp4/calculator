@@ -20,6 +20,9 @@ const multiply = () =>{ //returns product of both numbers
 };
 
 const divide = () =>{ //returns quotient of both numbers
+    if(input.secondNumber == 0){
+        return null
+    }
     return input.firstNumber / input.secondNumber;
 };
 
@@ -41,8 +44,13 @@ const equal = (op = "") => {//takes operation and outputs num
     }
 
     input.secondNumber = null;
-    output.textContent = input.firstNumber;
-
+    if (input.firstNumber === null){
+        output.textContent = "Error :(";
+        input.firstNumber = 0;
+    }
+    else{
+        output.textContent = input.firstNumber;
+    }
 };
 
 const output = document.querySelector(".output"); //selects the output div
@@ -101,6 +109,13 @@ clear.addEventListener("click", () => {
 const backspace = document.querySelector(".backspace");
 
 backspace.addEventListener("click", () => {
+    if(input.decimal){
+        if(input.decimalPlace < 100){
+            input.decimal = false;
+            input.decimalPlace /= 10;
+        }
+    }
+
     if(input.operator === ""){
         input.firstNumber = Math.floor(input.firstNumber /10);
         if(input.firstNumber !== 0) output.textContent = input.firstNumber;
